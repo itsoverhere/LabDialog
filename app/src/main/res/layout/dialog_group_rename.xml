@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        app:layout_widthPercent = "75%"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:hint="Group name"
+        android:id="@+id/et_name"/>
+
+</android.support.percent.PercentRelativeLayout>
