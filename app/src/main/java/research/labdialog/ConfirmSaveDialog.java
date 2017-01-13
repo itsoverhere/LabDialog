@@ -2,14 +2,28 @@ package research.labdialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 
 /**
  * Created by courtneyngo on 1/13/16.
  */
-public class ConfirmSaveDialog extends DialogFragment{
+public class ConfirmSaveDialog extends DialogFragment {
+
+    private OnUserApprovesListener mOnUserApprovesListener;
+
+    public OnUserApprovesListener getOnUserApprovesListener() {
+        return mOnUserApprovesListener;
+    }
+
+    public void setOnUserApprovesListener(OnUserApprovesListener mOnUserApprovesListener) {
+        this.mOnUserApprovesListener = mOnUserApprovesListener;
+    }
+
+    public interface OnUserApprovesListener{
+        public void onUserApproves(DialogInterface dialog, int which);
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -19,7 +33,7 @@ public class ConfirmSaveDialog extends DialogFragment{
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ((MainActivity)getActivity()).onPositiveConfirmSave();
+                        mOnUserApprovesListener.onUserApproves(dialog, which);
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -31,4 +45,5 @@ public class ConfirmSaveDialog extends DialogFragment{
 
         return alertDialogBuilder.create();
     }
+
 }
