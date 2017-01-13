@@ -1,6 +1,7 @@
 package research.labdialog;
 
-import android.app.DialogFragment;
+import android.support.v4.app.DialogFragment;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.support.design.widget.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,30 +35,44 @@ public class MainActivity extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment dialogFragment = new ConfirmSaveDialog();
-                dialogFragment.show(getFragmentManager(), "");
+                ConfirmSaveDialog dialogFragment = new ConfirmSaveDialog();
+                dialogFragment.setOnUserApprovesListener(new ConfirmSaveDialog.OnUserApprovesListener() {
+                    @Override
+                    public void onUserApproves(DialogInterface dialog, int which) {
+                        Snackbar.make(buttonSave, "User has confirmed.", Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+                dialogFragment.show(getSupportFragmentManager(), "");
             }
         });
 
         buttonGroupName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment dialogFragment = new RenameGroupDialog();
-                dialogFragment.show(getFragmentManager(), "");
+                RenameGroupDialog dialogFragment = new RenameGroupDialog();
+                dialogFragment.setOnUserApprovesListener(new RenameGroupDialog.OnUserApprovesListener() {
+                    @Override
+                    public void onUserApproves(DialogInterface dialog, int which, String input) {
+                        onGroupNameChanged(input);
+                    }
+                });
+                dialogFragment.show(getSupportFragmentManager(), "");
             }
         });
 
         buttonColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment dialogFragment = new PickColorDialog();
-                dialogFragment.show(getFragmentManager(), "");
+                PickColorDialog dialogFragment = new PickColorDialog();
+                dialogFragment.setOnUserApprovesListener(new PickColorDialog.OnUserApprovesListener() {
+                    @Override
+                    public void onUserApproves(DialogInterface dialog, int which, String color) {
+                        onColorChosen(color);
+                    }
+                });
+                dialogFragment.show(getSupportFragmentManager(), "");
             }
         });
-    }
-
-    public void onPositiveConfirmSave(){
-        Log.i("TAG", "On Confirm");
     }
 
     public void onGroupNameChanged(String name){
